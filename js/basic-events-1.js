@@ -1,6 +1,6 @@
 
 //-------------------------------------
-//  ::::  anatomy of event listener (pop alert)  ::::
+//  :::: (Ex. A)  anatomy of event listener (pop alert)  ::::
 //-------------------------------------
 //(1) select dom element that receives event (the listening element)
 
@@ -9,34 +9,65 @@
 //(3) add the event listener to the element that will receive the event,
 //     « elemenet ».addEventListener( «evt-type» , « event-handler function » )
 
-//alertBtnEl.addEventListener('click',popAlert)
+
+var alertBtnEl = document.querySelector('.pop-alert')
+
+alertBtnEl.addEventListener( 'click' , function(){
+	alert('you just pushed the pop alert button!!')
+})
+
 
 //-------------------------------------
-//  ::::  using the event-handler function to modify another element  ::::
+//  :::: (Ex. B) using the event-handler function to modify another element  ::::
 //-------------------------------------
 
-var writeBtn = document.querySelector('.write-btn')
-var writeSomething = function(){
-   // it all happens here...
-   var el = document.querySelector('.top.right')
-   el.innerHTML = '<h3>This appeared from clicking <code>button.write-btn</code> elsewhere</h3>'
-}
-writeBtn.addEventListener('click', writeSomething)
+var writeBtnEl = document.querySelector('.write-btn')
+
+writeBtnEl.addEventListener('click', function(evt){
+	console.log(evt)
+ 
+	var msgEl = document.querySelector('.msg')
+	msgEl.innerHTML = "<strong>Baby Shampoo</strong><br/>"
+	msgEl.innerHTML += "I love you baby shampoo. You make my hair so soft and i know that you will never make me cry."
+})
 
 
+//-------------------------------------
+//  :::: (Ex. C)  using the event-handler function to modify another element  ::::
+//-------------------------------------
+var mouseOverEl = document.querySelector('.mouse-over-example')
+mouseOverEl.addEventListener('mouseover', function(evt){
+	// console.log(evt.target)	
+	// console.log(evt.currentTarget)
+	// console.log(evt.target)
+	// console.log(evt.currentTarget)
+	var domElOfEvent = evt.currentTarget
+	domElOfEvent.innerHTML = "<h2>YOU TOUCHED ME!!!!!</h2>"
+})
 
 
-// C : evt.target to *dynamically select* and then modify
-//     the element where the event happened
-//-------------------------------------------------
-var doItBtn = document.querySelector('.do-it-btn')
-var h2El = document.querySelector('.yo-h2')
+//-------------------------------------
+//  :::: (Ex. D)  using the event-handler function to modify another element  ::::
+//-------------------------------------
+window.addEventListener('resize', function(evt){
+	var bottomRightEl = document.querySelector('.bottom.right')
+	bottomRightEl.classList.add('alt-color')
+})
 
-var modifyClickedElement = function(evt){
-   console.log(evt.target)
-   evt.target.innerHTML = "WOAHHHH CLICKED!"
-   evt.target.classList.add('urgent')
-}
 
-doItBtn.addEventListener('mouseover', modifyClickedElement)
-h2El.addEventListener('click', modifyClickedElement)
+//-------------------------------------
+//  :::: (Ex. E)  using the event-handler function to modify another element  ::::
+//-------------------------------------
+var infoInputEl = document.querySelector('.info-source-input')
+
+infoInputEl.addEventListener('keydown', function(evt){
+	if(evt.keyCode === 13){
+		console.log('ENTER PRESSED')
+		var remindersListEl = document.querySelector('.reminders-list')
+		var inputEl = evt.currentTarget
+	   remindersListEl.innerHTML += '<li>' + inputEl.value + '</li>'
+		inputEl.value = ''
+	}
+})
+
+

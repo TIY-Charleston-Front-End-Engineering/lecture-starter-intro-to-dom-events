@@ -1,81 +1,48 @@
-// https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+//-------------------------------------------------
+// Event listeners on multiple-elements
+//  + using the evt object to capture
+/// where an event happened
+//-------------------------------------------------k
+
+// [1] select all the .collection-item elements
+var collectionItemEls = document.querySelectorAll('.collection-item')
+
+console.log(collectionItemEls)
+
+// NOTE: Can't do this..... 
+//     addButtonEls.addEventListener("click", function(){
+// 	     console.log('rats')
+//      })
+// .... .addEventListener() is a method on a single DOM element, not an array 
 
 
-var appendToStreamingThoughts = function(msg){
-   var streamingThoughtsEl = document.querySelector('.travis-stream')
-   var newLiNode = document.createElement('li')
-   newLiNode.textContent = inputEl.value
-   console.log(newLiNode)
-   newLiNode.addEventListener('click', addToBottomLeft)
-   streamingThoughtsEl.appendChild(newLiNode)
-}
+// [2] - put an event listener on each element
+forEach( collectionItemEls , function( domElement, index, theArray ){
 
-var addToBottomLeft = function(evt){
-   console.log(evt.target.innerHTML)
-   var btmLeftEl = document.querySelector('.bottom.left')
-   btmLeftEl.appendChild(evt.target)
-}
+	domElement.addEventListener('click', function(evt){
+		console.log('event heard')
+		
+	   var domElementOfEvent = evt.target
+		var currentTargetDOMEl = evt.currentTarget
+		
+		//[3] if the <button class="adder"> element was clicked...
+      //     NOTE : we are using evt.target to see if the element where  
+      //            the event actually happened was the <button> element 
+      ///               
+		if(domElementOfEvent.className === 'adder' ){
+		
+		   // [4]...select the <h6 class="item-name"></h6> element.
+         //    NOTE: here we are using evt.currentTarget to query-select
+         //          the h6.item-name element in order to capture the text content
+         //          of the .collection-item that was clicked  
+			var itemNameEl = currentTargetDOMEl.querySelector('.item-name')
+			
+			// [5] append the textContent from the <h6 class="item-name"></h6> element.
+			//     as an li-tag
+			var cartListContainerEl =  document.querySelector('.your-cart')
+			cartListContainerEl.innerHTML +=  '<li>' + itemNameEl.textContent + '</li>'
+		}
+		
 
-
-// (1)
-var btnEl = document.querySelector('.adder')
-var inputEl = document.querySelector('.info-source')
-
-var doThisWhenClicked = function(){
-   appendToStreamingThoughts(inputEl.value)
-}
-
-btnEl.addEventListener('click', doThisWhenClicked)
-
-
-
-// (2)
-var inputEl = document.querySelector('.info-source')
-
-var respondToKey = function(evt){
-
-   // handle when enter  key is pressed
-
-   if(evt.keyCode === 13){
-      console.log('key was pressed!!', evt.keyCode )
-      console.log('input VAL', evt.target.value )
-      appendToStreamingThoughts(evt.target.value )
-
-   }
-
-   // handle when down arrow key is pressed
-   if(evt.keyCode === 40){
-      document.querySelector('.bottom.left').innerHTML += "<h4>"+evt.target.value+"</h4>"
-
-   }
-}
-
-inputEl.addEventListener('keydown', respondToKey )
-
-
-
-
-
-var stopAllBtn = document.querySelector('.stop-everything')
-
-var removeTheEventsHere = function(){
-   btnEl.removeEventListener('click', doThisWhenClicked)
-   inputEl.removeEventListener('keydown', respondToKey)
-
-}
-
-stopAllBtn.addEventListener('click', removeTheEventsHere)
-
-
-
-
-
-
-
-// Demo getting info from input with button click
-// demo getting info from input with keydown
-   // enter puts string on list to right
-   // down arrow puts string on bottom
-
-// if on bottom, it is imageable
-//
+	})
+})
